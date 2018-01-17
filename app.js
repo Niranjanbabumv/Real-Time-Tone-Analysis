@@ -23,7 +23,8 @@ var express   = require('express'),
   watson      = require('watson-developer-cloud'),
   nodemailer  = require('nodemailer'),
   smtpTransport = require('nodemailer-smtp-transport'),
-  request     = require('request');
+  request     = require('request'),
+  moment      = require('moment');
 
 // Set up environment variables 
 // cfenv provides access to your Cloud Foundry environment
@@ -90,6 +91,7 @@ app.post('/api/tone', function(req, res, next) {
 
 // Send email
 app.post('/api/email', function(req, res, next) {
+	var time = moment();
 	console.log(req.body);
 		var transporter = nodemailer.createTransport(smtpTransport({
 		  service: 'gmail',
@@ -103,7 +105,7 @@ app.post('/api/email', function(req, res, next) {
 		var mailOptions = {
 		  from: 'prem09.dutt06@gmail.com',
 		  to: req.body.name,
-		  subject: req.body.toneType,
+		  subject: "Customer Name: Prashanth SonnadMath" + req.body.toneType + "at time : "+time.format('YYYY-MM-DD HH:mm:ss'),
 		  text: req.body.transcription
 		};
 
